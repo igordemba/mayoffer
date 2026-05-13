@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Personal Offer — Igor Demba Photography</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #faf8f4;
+      --bg-2:     #f3efe8;
+      --bg-3:     #ece6db;
+      --bg-dark:  #1c1b18;
+      --gold:     #a07840;
+      --gold-lt:  #c09858;
+      --gold-bdr: #d4b882;
+      --text:     #1c1b18;
+      --text-mid: #4a4540;
+      --text-dim: #8a7f72;
+      --cream:    #faf8f4;
+      --red:      #b85540;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.018;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 128px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.08s; }
+    .d2 { transition-delay: 0.18s; }
+    .d3 { transition-delay: 0.28s; }
+    .d4 { transition-delay: 0.40s; }
+    .d5 { transition-delay: 0.52s; }
+
+    /* ── URGENCY BAR ── */
+    .urgency-bar {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--bg-dark);
+      display: flex; align-items: center; justify-content: center;
+      gap: 1.25rem; padding: 0.65rem 1.5rem; flex-wrap: wrap;
+    }
+    .ub-text { font-size: 0.62rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: #a09080; }
+    .ub-clock { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--gold-lt); letter-spacing: 0.05em; }
+    .ub-btn {
+      font-size: 0.58rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold-lt); text-decoration: none;
+      border: 1px solid rgba(192,152,88,0.4); padding: 0.3rem 0.9rem;
+      transition: background 0.25s, color 0.25s;
+    }
+    .ub-btn:hover { background: var(--gold-lt); color: var(--bg-dark); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; height: 100vh; min-height: 600px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.squarespace-cdn.com/content/v1/6164971a9996bd558e740f70/fbb4022f-1fe9-4093-a7f4-42fc1c9e3a2c/S%26A-19.jpg');
+      background-size: cover; background-position: center 35%;
+      animation: zoomIn 14s ease-out forwards;
+    }
+    @keyframes zoomIn { from { transform: scale(1.07); } to { transform: scale(1.00); } }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(250,248,244,0.1) 0%, rgba(28,27,24,0.42) 45%, rgba(28,27,24,0.88) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2; padding: 2rem;
+      animation: fadeUp 1.4s cubic-bezier(0.16,1,0.3,1) 0.2s both;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-logo { font-family: 'Cormorant Garamond', serif; font-size: 0.78rem; font-weight: 300; letter-spacing: 0.38em; text-transform: uppercase; color: var(--gold-lt); margin-bottom: 2rem; }
+    .hero-headline { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7.5vw, 6.5rem); font-weight: 300; line-height: 1.05; color: #faf8f4; margin-bottom: 1rem; letter-spacing: -0.01em; }
+    .hero-headline em { font-style: italic; color: var(--gold-lt); }
+    .hero-sub { font-size: clamp(0.72rem, 1.4vw, 0.88rem); font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(250,248,244,0.7); margin-bottom: 2.5rem; }
+
+    .countdown { display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 2.75rem; }
+    .cd-unit { text-align: center; }
+    .cd-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 300; color: #faf8f4; line-height: 1; display: block; min-width: 2.5ch; }
+    .cd-lbl { font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-lt); margin-top: 0.35rem; display: block; }
+    .cd-sep { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: rgba(250,248,244,0.3); align-self: flex-start; padding-top: 0.2rem; }
+    .hero-cta {
+      display: inline-block; padding: 0.9rem 2.75rem;
+      border: 1px solid rgba(192,152,88,0.7); color: var(--gold-lt); text-decoration: none;
+      font-size: 0.68rem; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase;
+      background: rgba(28,27,24,0.25);
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+    .hero-cta:hover { background: var(--gold-lt); border-color: var(--gold-lt); color: var(--bg-dark); }
+
+    /* ── RIBBON ── */
+    .ribbon { background: var(--gold); color: var(--cream); text-align: center; padding: 1rem 2rem; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; }
+
+    /* ── LAYOUT ── */
+    section { padding: 6rem 1.5rem; }
+    .container    { max-width: 1100px; margin: 0 auto; }
+    .container-sm { max-width: 740px;  margin: 0 auto; }
+    .sec-label { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .sec-heading { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4.5vw, 3.4rem); font-weight: 300; line-height: 1.12; color: var(--text); }
+    .sec-heading em { font-style: italic; color: var(--gold); }
+    .rule { width: 44px; height: 1px; background: var(--gold-bdr); margin: 1.75rem 0; }
+
+    /* ── NOTE ── */
+    .note-section { background: var(--bg-2); }
+    .note-inner { display: grid; grid-template-columns: 1fr 1.65fr; gap: 5rem; align-items: center; }
+    .note-portrait { position: relative; }
+    .note-portrait img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center top; display: block; }
+    .note-portrait::after { content: ''; position: absolute; inset: 12px -12px -12px 12px; border: 1px solid var(--gold-bdr); opacity: 0.5; pointer-events: none; }
+    .note-body p { font-size: clamp(0.92rem, 1.4vw, 1.02rem); line-height: 1.88; color: var(--text-mid); margin-bottom: 1.25rem; }
+    .note-body p strong { color: var(--text); font-weight: 400; }
+    .note-sig { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-style: italic; color: var(--gold); margin-top: 1.75rem; }
+
+    /* ── COLLECTIONS ── */
+    .collections-section { background: var(--bg); }
+    .collections-hdr { text-align: center; margin-bottom: 4rem; }
+    .collections-hdr .note { margin-top: 0.9rem; color: var(--text-dim); font-size: 0.83rem; line-height: 1.7; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .collections-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+    .col-card { position: relative; overflow: hidden; aspect-ratio: 4/5; }
+    .col-card:hover .col-bg { transform: scale(1.04); }
+    .col-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+    .col-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(250,248,244,0.98) 0%,
+        rgba(250,248,244,0.92) 22%,
+        rgba(250,248,244,0.55) 45%,
+        rgba(250,248,244,0.10) 68%,
+        rgba(250,248,244,0.00) 100%
+      );
+    }
+    .col-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem 2rem 2.25rem; }
+    .col-num { font-size: 0.57rem; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+    .col-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2.2vw, 1.5rem); font-weight: 400; line-height: 1.25; color: var(--text); margin-bottom: 0.9rem; }
+    .col-includes { list-style: none; margin-bottom: 1.25rem; }
+    .col-includes li { font-size: 0.71rem; font-weight: 300; letter-spacing: 0.05em; color: var(--text-mid); padding: 0.18rem 0; display: flex; align-items: center; gap: 0.5rem; }
+    .col-includes li::before { content: ''; width: 14px; height: 1px; background: var(--gold-bdr); flex-shrink: 0; }
+    .col-pricing { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+    .p-was { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--text-dim); text-decoration: line-through; }
+    .p-now { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.7rem, 3.5vw, 2.4rem); font-weight: 400; color: var(--text); line-height: 1; }
+    .p-save { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); background: rgba(184,85,64,0.08); border: 1px solid rgba(184,85,64,0.25); padding: 0.2rem 0.55rem; border-radius: 2px; }
+
+    /* ── ADD-ONS ── */
+    .addons-section { background: var(--bg-2); }
+    .addons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem 2.5rem; margin-top: 3rem; }
+    .addon { border-top: 1px solid var(--bg-3); padding-top: 1.25rem; }
+    .addon-price { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 300; color: var(--gold); display: block; margin-bottom: 0.3rem; }
+    .addon-name { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text); display: block; margin-bottom: 0.35rem; }
+    .addon-desc { font-size: 0.8rem; font-weight: 300; color: var(--text-dim); line-height: 1.55; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-section { background: var(--bg-3); }
+    .t-slider { position: relative; min-height: 210px; }
+    .t-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 1rem; }
+    .t-slide.active { opacity: 1; position: relative; }
+    .t-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.2rem, 2.5vw, 1.65rem); font-weight: 300; font-style: italic; line-height: 1.65; color: var(--text); max-width: 760px; margin: 0 auto 1.5rem; text-align: center; }
+    .t-author { font-size: 0.63rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+    .t-dots { display: flex; gap: 0.5rem; justify-content: center; margin-top: 2.25rem; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text); opacity: 0.15; cursor: pointer; border: none; padding: 0; transition: opacity 0.3s, background 0.3s; }
+    .dot.active { opacity: 1; background: var(--gold); }
+
+    /* ── PRESS ── */
+    .press-section { background: var(--bg); border-top: 1px solid var(--bg-3); border-bottom: 1px solid var(--bg-3); padding: 3.5rem 1.5rem; }
+    .press-label { text-align: center; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 2.25rem; }
+    .press-logos { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; justify-content: center; align-items: center; }
+    .press-logo { font-family: 'Cormorant Garamond', serif; font-size: clamp(0.85rem, 1.8vw, 1.1rem); font-weight: 400; letter-spacing: 0.08em; color: var(--text-dim); text-transform: uppercase; transition: color 0.3s; user-select: none; }
+    .press-logo:hover { color: var(--text-mid); }
+    .press-logo.it { font-style: italic; }
+
+    /* ── CTA ── */
+    .cta-section { background: var(--bg-dark); text-align: center; padding: 8rem 1.5rem; position: relative; overflow: hidden; }
+    .cta-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(160,120,64,0.08) 0%, transparent 65%); pointer-events: none; }
+    .cta-label { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+    .cta-headline { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 5.5vw, 4.5rem); font-weight: 300; color: var(--cream); line-height: 1.1; margin-bottom: 1rem; }
+    .cta-headline em { font-style: italic; color: var(--gold-lt); }
+    .cta-sub { font-size: 0.92rem; font-weight: 300; color: rgba(250,248,244,0.55); line-height: 1.75; max-width: 500px; margin: 0 auto 2.25rem; }
+    .cta-sub strong { color: rgba(250,248,244,0.85); font-weight: 400; }
+    .cta-deadline { font-size: 0.63rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 2.25rem; }
+    .btn-gold { display: inline-block; padding: 1.1rem 3.5rem; background: var(--gold); color: var(--cream); text-decoration: none; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.3s, transform 0.2s; }
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .cta-note { margin-top: 1.5rem; font-size: 0.72rem; color: rgba(250,248,244,0.35); }
+    .cta-note a { color: var(--gold-lt); text-decoration: none; }
+    .cta-note a:hover { text-decoration: underline; }
+    .reel-teaser { margin-top: 5rem; padding-top: 3.5rem; border-top: 1px solid rgba(250,248,244,0.07); text-align: center; }
+    .reel-label { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .reel-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1.1rem, 2vw, 1.4rem); color: rgba(250,248,244,0.45); max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--bg-2); border-top: 1px solid var(--bg-3); padding: 3rem 1.5rem; text-align: center; }
+    .f-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-mid); margin-bottom: 0.75rem; }
+    .f-links { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .f-links a { font-size: 0.63rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
+    .f-links a:hover { color: var(--gold); }
+    .f-copy { font-size: 0.63rem; color: var(--text-dim); letter-spacing: 0.05em; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .note-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .note-portrait { max-width: 220px; margin: 0 auto; }
+      .collections-grid { grid-template-columns: 1fr; }
+      .col-card { aspect-ratio: 3/4; }
+      .addons-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      section { padding: 4rem 1.25rem; }
+      .addons-grid { grid-template-columns: 1fr; }
+      .countdown { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="urgency-bar">
+  <span class="ub-text">£500 off every collection — offer ends</span>
+  <span class="ub-clock" id="bar-cd">loading...</span>
+  <a href="#book" class="ub-btn">Book a Call</a>
+</div>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-logo">Igor Demba · Photography</div>
+    <h1 class="hero-headline">Something for you,<br><em>before May ends.</em></h1>
+    <p class="hero-sub">£500 off every collection &nbsp;·&nbsp; offer closes May 31st</p>
+    <div class="countdown">
+      <div class="cd-unit"><span class="cd-num" id="cd-d">00</span><span class="cd-lbl">Days</span></div>
+      <span class="cd-sep">·</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-h">00</span><span class="cd-lbl">Hours</span></div>
+      <span class="cd-sep">·</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-m">00</span><span class="cd-lbl">Minutes</span></div>
+      <span class="cd-sep">·</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><span class="cd-lbl">Seconds</span></div>
+    </div>
+    <a href="#collections" class="hero-cta">See the collections</a>
+  </div>
+</section>
+
+<div class="ribbon">Every collection &nbsp;·&nbsp; Any date &nbsp;·&nbsp; Any destination &nbsp;·&nbsp; £500 off until 31st May 2026</div>
+
+<section class="note-section">
+  <div class="container">
+    <div class="note-inner">
+      <div class="note-portrait reveal">
+        <img src="https://images.squarespace-cdn.com/content/v1/6164971a9996bd558e740f70/f24d7350-023a-4886-83df-8029b8582619/Igor+-+1.jpg" alt="Igor Demba" loading="lazy">
+      </div>
+      <div class="note-body">
+        <p class="sec-label reveal">A personal note</p>
+        <h2 class="sec-heading reveal d1">I've been thinking about<br><em>the couples I've spoken with.</em></h2>
+        <div class="rule reveal d2"></div>
+        <div class="reveal d3">
+          <p>I know how much goes into planning a wedding — and I completely understand that locking in a photographer isn't always the first thing on the list. There's a lot to weigh up, and timing doesn't always cooperate.</p>
+          <p>Before May comes to a close, I wanted to reach out personally. Until <strong>May 31st</strong>, I'm making <strong>£500 off any of my collections</strong> available — for any date, any destination, no strings attached. It's my way of making this a little easier for the couples I already have a good feeling about.</p>
+          <p>If you'd like to have a proper conversation — even just to explore what's possible — I'd genuinely love to hear from you. Thirty minutes is usually all it takes to figure out if we're a great fit and start building something around your day.</p>
+          <p>Everything's flexible. Hours, coverage, approach. And all travel and accommodation is already included in my prices — so there are no surprises.</p>
+        </div>
+        <div class="note-sig reveal d4">Igor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="collections-section" id="collections">
+  <div class="container">
+    <div class="collections-hdr">
+      <p class="sec-label reveal">Collections</p>
+      <h2 class="sec-heading reveal d1">Every package. <em>£500 off.</em></h2>
+      <p class="note reveal d2">All prices include VAT and travel costs within England and Wales.<br>Destination weddings welcome — let's talk.</p>
+    </div>
+    <div class="collections-grid">
+      <div class="col-card reveal">
+        <div class="col-bg" style="background-image:url('https://images.squarespace-cdn.com/content/v1/6164971a9996bd558e740f70/d3118b12-3de6-415b-97ef-72f25ddd66bc/C%26D-567.jpeg')"></div>
+        <div class="col-overlay"></div>
+        <div class="col-content">
+          <div class="col-num">Collection 01 — The Full Story</div>
+          <h3 class="col-title">Captures the essence of a weekend full of incredible experiences</h3>
+          <ul class="col-includes">
+            <li>Unlimited coverage</li><li>Second day coverage</li><li>Edited images &amp; online gallery</li>
+            <li>Digital download &amp; print release</li><li>Story of the Day slideshow</li><li>Roids In The Wild</li><li>Fine Art Album</li>
+          </ul>
+          <div class="col-pricing"><span class="p-was">£5,000</span><span class="p-now">£4,500</span><span class="p-save">Save £500</span></div>
+        </div>
+      </div>
+      <div class="col-card reveal d1">
+        <div class="col-bg" style="background-image:url('https://images.squarespace-cdn.com/content/v1/6164971a9996bd558e740f70/6c868e8f-5134-4808-ae31-4a3d010e0234/006.jpg')"></div>
+        <div class="col-overlay"></div>
+        <div class="col-content">
+          <div class="col-num">Collection 02 — Every Moment</div>
+          <h3 class="col-title">Here nothing is missed from the moments beautifully captured</h3>
+          <ul class="col-includes">
+            <li>Unlimited coverage</li><li>Edited images &amp; online gallery</li>
+            <li>Digital download &amp; print release</li><li>Story of the Day slideshow</li><li>Roids In The Wild</li>
+          </ul>
+          <div class="col-pricing"><span class="p-was">£3,500</span><span class="p-now">£3,000</span><span class="p-save">Save £500</span></div>
+        </div>
+      </div>
+      <div class="col-card reveal d2">
+        <div class="col-bg" style="background-image:url('https://images.squarespace-cdn.com/content/v1/6164971a9996bd558e740f70/205674e7-8bac-40c1-a46c-290ff8f57a88/foundations-18.jpg')"></div>
+        <div class="col-overlay"></div>
+        <div class="col-content">
+          <div class="col-num">Collection 03 — The Day</div>
+          <h3 class="col-title">From getting ready to the first dance, and everything in between</h3>
+          <ul class="col-includes">
+            <li>12 hours coverage</li><li>Edited images &amp; online gallery</li>
+            <li>Digital download &amp; print release</li><li>Story of the Day slideshow</li>
+          </ul>
+          <div class="col-pricing"><span class="p-was">£2,500</span><span class="p-now">£2,000</span><span class="p-save">Save £500</span></div>
+        </div>
+      </div>
+      <div class="col-card reveal d3">
+        <div class="col-bg" style="background-image:url('https://images.squarespace-cdn.com/content/v1/6164971a9996bd558e740f70/51ce659a-4dc6-4bcf-b771-251106351df1/C%26J-70.jpg')"></div>
+        <div class="col-overlay"></div>
+        <div class="col-content">
+          <div class="col-num">Collection 04 — The Essentials</div>
+          <h3 class="col-title">Perfect for a relaxed wedding day making sure an awesome story is told</h3>
+          <ul class="col-includes">
+            <li>4 hours coverage</li><li>Edited images &amp; online gallery</li><li>Digital download &amp; print release</li>
+          </ul>
+          <div class="col-pricing"><span class="p-was">£1,500</span><span class="p-now">£1,000</span><span class="p-save">Save £500</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="addons-section">
+  <div class="container">
+    <p class="sec-label reveal">Customise your collection</p>
+    <h2 class="sec-heading reveal d1">Every wedding is different.<br><em>Make it yours.</em></h2>
+    <p class="reveal d2" style="color:var(--text-dim);font-size:0.83rem;margin-top:0.75rem;line-height:1.7;">Add-ons can be mixed in any combination. Everything is adjustable — just ask.</p>
+    <div class="addons-grid">
+      <div class="addon reveal"><span class="addon-price">£250</span><span class="addon-name">Additional Coverage</span><span class="addon-desc">Extended by the hour — for late nights and long days.</span></div>
+      <div class="addon reveal d1"><span class="addon-price">£600</span><span class="addon-name">Roids In The Wild</span><span class="addon-desc">Original Polaroids and instant film, delivered digitally too.</span></div>
+      <div class="addon reveal d2"><span class="addon-price">£800</span><span class="addon-name">The Box</span><span class="addon-desc">Custom engraved wooden keepsake with USB and fine art prints.</span></div>
+      <div class="addon reveal d3"><span class="addon-price">£1,000</span><span class="addon-name">Couple Session</span><span class="addon-desc">2 hours capturing just the two of you in a location worth exploring.</span></div>
+      <div class="addon reveal d4"><span class="addon-price">£800</span><span class="addon-name">Second Shooter</span><span class="addon-desc">Pro photographer alongside Igor from getting ready to first dance.</span></div>
+      <div class="addon reveal d5"><span class="addon-price">£1,200</span><span class="addon-name">Fine Art Album</span><span class="addon-desc">12×12 hand-crafted, panoramic layout, hardback. Built to last a lifetime.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials-section">
+  <div class="container-sm">
+    <p class="sec-label reveal" style="text-align:center;margin-bottom:2.25rem;">What couples say</p>
+    <div class="t-slider reveal d1">
+      <div class="t-slide active">
+        <p class="t-quote">"He caught the day in such a fantastic way capturing all our favourite parts of the locations and spotting things we hadn't even noticed. We have printed quite a few already and are looking forward to adding more to the walls."</p>
+        <span class="t-author">Nic &amp; James</span>
+      </div>
+      <div class="t-slide">
+        <p class="t-quote">"From our first conversations he shared our excitement, passion, and vision and we felt completely reassured to be in his hands. He captured so much laughter and love, and the spirit of our day bursts out of his images."</p>
+        <span class="t-author">Kasia &amp; Jon</span>
+      </div>
+      <div class="t-slide">
+        <p class="t-quote">"Eloping alone was the right decision, and having you at our side felt like being with a friend. We are really overwhelmed by the pictures — literally everybody I showed the pictures was like: who is the photographer?!"</p>
+        <span class="t-author">Nadia &amp; Christoph</span>
+      </div>
+      <div class="t-slide">
+        <p class="t-quote">"Igor made everyone at our wedding feel as special as we felt throughout the day. He has a natural ability to get the best out of everyone. I wish I could hire him round to shoot us everyday."</p>
+        <span class="t-author">Jo &amp; Greg</span>
+      </div>
+    </div>
+    <div class="t-dots reveal d2">
+      <button class="dot active" onclick="slide(0)"></button>
+      <button class="dot" onclick="slide(1)"></button>
+      <button class="dot" onclick="slide(2)"></button>
+      <button class="dot" onclick="slide(3)"></button>
+    </div>
+  </div>
+</section>
+
+<section class="press-section">
+  <div class="container">
+    <p class="press-label">Featured in</p>
+    <div class="press-logos">
+      <span class="press-logo it">Harper's Bazaar</span>
+      <span class="press-logo">Condé Nast Brides</span>
+      <span class="press-logo it">Junebug Weddings</span>
+      <span class="press-logo">Rock My Wedding</span>
+      <span class="press-logo">The Huffington Post</span>
+      <span class="press-logo it">Rangefinder</span>
+      <span class="press-logo">Rock'n'Roll Bride</span>
+      <span class="press-logo it">Stylist</span>
+      <span class="press-logo">Marie Claire</span>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="book">
+  <div class="container-sm">
+    <p class="cta-label reveal">Before May 31st</p>
+    <h2 class="cta-headline reveal d1">Let's jump on<br><em>a quick call.</em></h2>
+    <p class="cta-sub reveal d2">Thirty minutes is usually all it takes. We'll talk through your day, what you're looking for, and whether we're a great fit — <strong>no pressure, no hard sell</strong>, just a proper conversation.</p>
+    <p class="cta-deadline reveal d3">£500 off &nbsp;·&nbsp; Any collection &nbsp;·&nbsp; Offer closes 31st May 2026</p>
+    <div class="reveal d4"><button class="btn-gold" onclick="openCal()">Book your 30-min call</button></div>
+    <p class="cta-note reveal d5">Or email directly — <a href="mailto:info@igordemba.com">info@igordemba.com</a></p>
+    <div class="reel-teaser reveal">
+      <p class="reel-label">Also available</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:300;color:var(--cream);line-height:1.2;margin-bottom:1rem;">Add video to your package —<br><em style="color:var(--gold-lt);">through a highlight reel.</em></h3>
+      <p style="font-size:0.88rem;font-weight:300;color:rgba(250,248,244,0.5);line-height:1.8;max-width:520px;margin:0 auto 1rem;">A short, cinematic film of your day — the vows, the laughter, the first dance, the moments in between. Beautifully edited to music that means something to you, and delivered alongside your gallery as a companion piece you'll return to again and again.</p>
+      <p style="font-size:0.75rem;font-weight:300;color:rgba(250,248,244,0.32);line-height:1.7;max-width:440px;margin:0 auto;">This is something new I'm building into my offer. If it interests you, mention it on our call and we can talk through what that would look like for your day.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-name">Igor Demba Photography</div>
+  <div class="f-links">
+    <a href="https://www.igordemba.com" target="_blank">Website</a>
+    <a href="https://www.instagram.com/igordemba/" target="_blank">Instagram</a>
+    <a href="mailto:info@igordemba.com">info@igordemba.com</a>
+    <a href="tel:+447891057424">+44 (0) 7891 057 424</a>
+  </div>
+  <p class="f-copy">London &nbsp;·&nbsp; Europe &nbsp;·&nbsp; Worldwide &nbsp;·&nbsp; © 2026 Igor Demba Photography</p>
+</footer>
+
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+  const deadline = new Date('2026-05-31T23:59:59');
+  function tick() {
+    const diff = deadline - new Date();
+    if (diff <= 0) { document.getElementById('bar-cd').textContent = 'Offer has ended'; return; }
+    const pad = n => String(n).padStart(2,'0');
+    const d = Math.floor(diff/86400000), h = Math.floor((diff%86400000)/3600000),
+          m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+    document.getElementById('cd-d').textContent = pad(d);
+    document.getElementById('cd-h').textContent = pad(h);
+    document.getElementById('cd-m').textContent = pad(m);
+    document.getElementById('cd-s').textContent = pad(s);
+    document.getElementById('bar-cd').textContent = `${pad(d)}d  ${pad(h)}h  ${pad(m)}m  ${pad(s)}s`;
+  }
+  tick(); setInterval(tick, 1000);
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  let cur = 0;
+  const slides = document.querySelectorAll('.t-slide');
+  const dots   = document.querySelectorAll('.dot');
+  function slide(n) {
+    slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
+    cur = n;
+    slides[cur].classList.add('active'); dots[cur].classList.add('active');
+  }
+  setInterval(() => slide((cur + 1) % slides.length), 6000);
+
+  function openCal() {
+    if (typeof Calendly !== 'undefined') {
+      Calendly.initPopupWidget({ url: 'https://calendly.com/igordemba-info/30min' });
+    } else {
+      window.open('https://calendly.com/igordemba-info/30min', '_blank');
+    }
+  }
+</script>
+</body>
+</html>
